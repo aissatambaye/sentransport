@@ -31,3 +31,17 @@
     margin-right: 12px;
   }
 }
+
+.aucun-resultat {
+  text-align: center;
+  color: #e74c3c;
+  font-style: italic;
+  margin-top: 24px;
+}
+
+.compteur-recherches {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-bottom: 8px;
+}

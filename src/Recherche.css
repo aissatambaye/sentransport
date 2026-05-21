@@ -20,3 +20,21 @@
 .recherche-input::placeholder {
   color: #b2bec3;
 }
+
+.recherche {
+  display: flex;
+  gap: 8px;
+}
+
+.recherche-btn-effacer {
+  padding: 10px 16px;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.recherche-btn-effacer:hover {
+  background-color: #c8c8c8;
+}
