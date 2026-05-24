@@ -4,6 +4,7 @@ import Header from './Header';
 import Recherche from './Recherche';
 import LigneBus from './LigneBus';
 import DetailLigne from './DetailLigne';
+import Carte from './Carte';
 import Footer from './Footer';
 
 function App() {
@@ -13,8 +14,11 @@ function App() {
   const [recherche, setRecherche] = useState("");
   const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
   const [nbRecherches, setNbRecherches] = useState(0);
+  const [detailLigne, setDetailLigne] = useState(null);
 
-  useEffect(() => {
+  function chargerLignes() {
+    setChargement(true);
+    setErreur(null);
     fetch("http://localhost:5000/lignes")
       .then(response => {
         if (!response.ok) {
@@ -30,6 +34,10 @@ function App() {
         setErreur(error.message);
         setChargement(false);
       });
+  }
+
+  useEffect(() => {
+    chargerLignes();
   }, []);
 
   const lignesFiltrees = lignes.filter(l =>
@@ -41,8 +49,12 @@ function App() {
   function handleClickLigne(ligne) {
     if (ligneSelectionnee && ligneSelectionnee.id === ligne.id) {
       setLigneSelectionnee(null);
+      setDetailLigne(null);
     } else {
       setLigneSelectionnee(ligne);
+      fetch(`http://localhost:5000/lignes/${ligne.id}`)
+        .then(response => response.json())
+        .then(data => setDetailLigne(data));
     }
   }
 
@@ -81,6 +93,7 @@ function App() {
     <div className="App">
       <Header />
       <main className="contenu">
+        <button onClick={chargerLignes}>Recharger</button>
         <Recherche
           valeur={recherche}
           onChange={handleChange}
@@ -111,7 +124,8 @@ function App() {
           />
         ))}
 
-        {ligneSelectionnee && <DetailLigne ligne={ligneSelectionnee} />}
+        {detailLigne && <DetailLigne ligne={detailLigne} />}
+        <Carte />
       </main>
       <Footer />
     </div>
